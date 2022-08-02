@@ -9,7 +9,9 @@ class Auto_part(models.Model):
     description = models.CharField(blank=True, max_length=200)
     produced_by = models.CharField(blank=False, verbose_name="Виробник:", max_length=70)
     serial_number = models.CharField(blank=False, max_length=30)
-    image = models.ImageField(upload_to='products/', blank=False)
+    image = models.ImageField(verbose_name="Фото 1(обов'язкове):", upload_to='products/', blank=False)
+    image_2 = models.ImageField(verbose_name="Фото 2:", upload_to='products/', blank=True)
+    image_3 = models.ImageField(verbose_name="Фото 3:", upload_to='products/', blank=True)
     state = models.BooleanField("Стан B/Y", default=False)
     top_product = models.BooleanField("Найпопулярніші товари", default=False)
     car_brand = models.ForeignKey(

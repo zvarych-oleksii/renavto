@@ -69,6 +69,7 @@ class CheckOut(View):
                           price_total=total_cart_price(products, cart),#product.price,
                           quantity_total=total_cart_quantity(products, cart),#cart.get(str(product.id))
                           );
+        order.save()
         return render(request, "successful.html")
 
 class ItemsForFilter():
@@ -148,6 +149,7 @@ class AutoPartDetail(DetailView):
         return redirect('Auto_part_det', pk=pk)
 
 def models(request, brand):
+    print(brand)
     car_brand = Brand_of_car.lst_of_all_brands.get(name_of_brand = brand)
     car_models = Model_of_car.lst_of_all_models.filter(model_of_car=car_brand)
     return render(request, 'car_models.html', {'car_models': car_models})

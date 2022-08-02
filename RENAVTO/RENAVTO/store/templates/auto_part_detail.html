@@ -11,11 +11,21 @@
         <div class="single_product_thumb clearfix">
             <div class="product_thumbnail_slides owl-carousel">
                 <img class="img_product" src="{{auto_part.image.url }}" alt="">
-                <img class="img_product" src="{{auto_part.image.url }}" alt="">
-                <img class="img_product" src="{{auto_part.image.url }}" alt="">
+                {% if auto_part.image_2 %}
+                    <img class="img_product" src="{{auto_part.image_2.url }}" alt="">
+                {% endif %}
+                {% if auto_part.image_3 %}
+                    <img class="img_product" src="{{auto_part.image_3.url }}" alt="">
+                {% endif %}
             </div>
             <div class="img_center">
                 <img class="img_product_detail" src="{{auto_part.image.url }}" alt="">
+                {% if auto_part.image_2 %}
+                    <img class="img_product_detail" src="{{auto_part.image_2.url }}" alt="">
+                {% endif %}
+                {% if auto_part.image_3 %}
+                    <img class="img_product_detail" src="{{auto_part.image_3.url }}" alt="">
+                {% endif %}
             </div>
         </div>
 
