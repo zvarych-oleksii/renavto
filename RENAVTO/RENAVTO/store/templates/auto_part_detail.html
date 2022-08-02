@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+{% load cart %}
+{% block content %}
+<body>
+
+    <!-- ##### Single Product Details Area Start ##### -->
+    <section class="single_product_details_area d-flex align-items-center">
+
+        <!-- Single Product Thumb -->
+        <div class="single_product_thumb clearfix">
+            <div class="product_thumbnail_slides owl-carousel">
+                <img class="img_product" src="{{auto_part.image.url }}" alt="">
+                <img class="img_product" src="{{auto_part.image.url }}" alt="">
+                <img class="img_product" src="{{auto_part.image.url }}" alt="">
+            </div>
+            <div class="img_center">
+                <img class="img_product_detail" src="{{auto_part.image.url }}" alt="">
+            </div>
+        </div>
+
+        <!-- Single Product Description -->
+        <div class="single_product_desc clearfix">
+            <span></span>
+            <a href="cart.html">
+                <h2>{{auto_part.name}}</h2>
+            </a>
+            <p style="margin-bottom: 0;font-family: 'Ubuntu', sans-serif; font-size: 24px; color: #FF4937FF; font-weight: 700;">Ціна:{{auto_part.price}} грн.</p>
+            <h6>Серійний номер запчастини: </h6><p class="product-desc">{{auto_part.serial_number}}</p>
+            <h6>Виробник: </h6><p class="product-desc">{{auto_part.produced_by}}</p>
+            {% if auto_part.state %}
+                <h6>Стан: </h6><p class="product-desc">B/Y</p>
+            {% else %}
+                <h6>Стан: </h6><p class="product-desc">Новий</p>
+            <h6>Код товару: </h6><p class="product-desc">{{auto_part.id}}</p>
+            {% endif %}
+            <!-- Form -->
+                <!-- Cart & Favourite Box -->
+                <div class="cart-fav-box d-flex" style="align-items: center;padding: 5px; display: flex">
+                    <!-- Cart -->
+                    {% if auto_part|is_in_cart:request.session.cart  %}
+                        <div class="row nu-gutters bg-light" style="display: flex">
+                                                    <form style="display: flex" action="" class="" method="post">
+                                                        {% csrf_token %}
+                                                        <input hidden type="text" name="product" value="{{auto_part.id}}">
+                                                        <input hidden type="text" name="remove" value="True">
+                                                        <input type="submit" value=" - " class="btn btn-block btn-secondary">
+                                                    </form>
+                                                        <div class="text-center col">{{ auto_part|cart_quantity:request.session.cart }}</div>
+                                                    <form action="" class="" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="product" value="{{auto_part.id}}">
+                                                        <input type="submit" value=" + " class="btn btn-block btn-secondary">
+                                                    </form>
+                                            </div>
+                    {% else %}
+                        <div class="add-to-cart-btn">
+
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <input type="hidden" name="product" value="{{auto_part.id}}">
+                                <input type="submit" class="btn essence-btn" value="У кошик">
+                            </form>
+                        </div>
+                    {% endif %}
+                    <!-- Favourite -->
+                    <div class="product-favourite ml-4">
+                        <a href="#" class="favme fa fa-star"></a>
+                    </div>
+                </div>
+        </div>
+    </section>
+    <!-- ##### Single Product Details Area End ##### -->
+<section class="new_arrivals_area section-padding-80 clearfix">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="section-heading text-center">
+                        <h2>Найпопулярніші товари</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% include 'top_products.html' %}
+    </section>
+
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Plugins js -->
+    <script src="js/plugins.js"></script>
+    <!-- Classy Nav js -->
+    <script src="js/classy-nav.min.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
+
+</body>
+{% endblock %}

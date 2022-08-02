@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load cart %}
+{% block content %}
+<body>
+
+    <!-- ##### Breadcumb Area Start ##### -->
+    <div class="breadcumb_area bg-img"  style="background-image: url(novaposta.jpeg)">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="page-title text-center">
+                        <h2>Оплата та доставка</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Checkout Area Start ##### -->
+    <div class="checkout_area section-padding-80">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 col-md-6">
+                    <div class="checkout_details_area mt-50 clearfix">
+
+                        <div class="cart-page-heading mb-30">
+                            <h5>Адрес доставки</h5>
+                        </div>
+
+                        <form action="{% url 'successful' %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="first_name">Ім'я <span>*</span></label>
+                                    <input type="text" class="form-control" name="first_name" max="20" required>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="last_name">Прізвище <span>*</span></label>
+                                    <input type="text" class="form-control" name="second_name" max="20" required>
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label for="phone_number">Номер телефону <span>*</span></label>
+                                    <input type="text" class="form-control" name="phone_number" min="0" max="15" value="">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label for="city">Місто:<span>*</span></label>
+                                    <input type="text" class="form-control" name="city" min="0" max="20" value="">
+                                </div>
+                                <div class="col-12 mb-3">
+                                    <label for="phone_number">Відділення: <span>*</span></label>
+                                    <input type="text" class="form-control" name="nova_poshta" min="0" max="30" value="">
+                                </div>
+                                <label for="first_name">Оплата:</label>
+                            </div>
+                            <input type="submit" class="btn essence-btn" value="У відділені">
+                            <input type="submit" class="btn essence-btn" value="Самовивіз">
+                        </form>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6 col-lg-5 ml-lg-auto">
+                    <div class="order-details-confirmation">
+
+                        <div class="cart-page-heading">
+                            <h5>Ваше замовлення</h5>
+                        </div>
+
+                        <ul class="order-details-form mb-4">
+                            <li><span>Товар</span><span>Кількість</span> <span>Ціна</span></li>
+                            {% for product in parts_for_cart %}
+                                <li><span>{{product.name}}</span><span>{{product|cart_quantity:request.session.cart}}</span> <span>{{product.price}} грн.</span></li>
+                            {% endfor %}
+                            <li><span>Загальна ціна</span><span>{{parts_for_cart|total_cart_quantity:request.session.cart}}</span> <span>{{parts_for_cart|total_cart_price:request.session.cart}} грн.</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- jQuery (Necessary for All JavaScript Plugins) -->
+    <script src="js/jquery/jquery-2.2.4.min.js"></script>
+    <!-- Popper js -->
+    <script src="js/popper.min.js"></script>
+    <!-- Bootstrap js -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Plugins js -->
+    <script src="js/plugins.js"></script>
+    <!-- Classy Nav js -->
+    <script src="js/classy-nav.min.js"></script>
+    <!-- Active js -->
+    <script src="js/active.js"></script>
+
+</body>
+{% endblock %}

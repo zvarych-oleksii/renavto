@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% load cart %}
+{% load static %}
+{% block content %}
+<body>
+    <!-- ##### Breadcumb Area Start ##### -->
+    <div class="breadcumb_area bg-img img-category" style="background-image: url(../static/img/bg-img/bg-1.png);">
+        <div class="container h-100">
+            <div class="row h-100 align-items-center">
+                <div class="col-12">
+                    <div class="page-title text-center">
+                        <h2>ЗАПЧАСТИНИ</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ##### Breadcumb Area End ##### -->
+
+    <!-- ##### Shop Grid Area Start ##### -->
+    <section class="shop_grid_area section-padding-80">
+        <div class="container">
+            <div class="row">
+                {% include 'sidebar.html' %}
+
+                <div class="col-12 col-md-8 col-lg-9">
+                    <div class="shop_grid_product_area">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="product-topbar d-flex align-items-center justify-content-around">
+                                    <!-- Total Products -->
+                                    <div class="total-products">
+                                        <p> Знайдено товарів:<span style="font-size: 14px;font-weight: bold">{{search_results.count}}</span></p>
+                                    </div>
+                                    <!-- Sorting -->
+                                    <!--<div class="product-sorting d-flex">
+                                        <p>Сортувати по :</p>
+                                        <form action="" name="sorted_by" method="get">
+                                            <select name="select" id="sortByselect">
+                                                <option value="ff">Від найдорожчих</option>
+                                                <option value="gg">Від найдешевших</option>
+                                            </select>
+                                        </form>
+                                    </div>-->
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <!-- Single Product -->
+                            {% for product in search_results %}
+                                <div class="col-12 col-sm-6 col-lg-4 " id="{{product.id}}" >
+                                <div class="single-product-wrapper border-1">
+                                    <!-- Product Image -->
+                                    <div class="product-img">
+                                        <img style="width: 255px;height: 255px;" src="{{product.image.url }}" alt="">
+                                        <!-- Product Badge -->
+                                        <div class="product-badge offer-badge">
+                                            <span>-30%</span>
+                                        </div>
+                                        <!-- Favourite -->
+                                        <div class="product-favourite">
+                                            <a href="#" class="favme fa fa-heart"></a>
+                                        </div>
+                                    </div>
+
+                                    <!-- Product Description -->
+                                    <div class="product-description">
+                                        <span class="pad">{{product.serial_number}}</span>
+                                        <a href="{% url 'Auto_part_det' %}{{product.id}}">
+                                            <h6 class="h6 pad">{{product.name}}</h6>
+                                        </a>
+                                        <p class="product-price pad">{{ product.price}} грн.</p>
+
+                                        <!-- Hover Content -->
+                                        <div class="hover-content">
+                                            <!-- Add to Cart -->
+                                            {% if product|is_in_cart:request.session.cart  %}
+                                                <div class="row nu-gutters bg-light">
+                                                    <form action="#{{product.id}}" class="col-2" method="post">
+                                                        {% csrf_token %}
+                                                        <input hidden type="text" name="product" value="{{product.id}}">
+                                                        <input hidden type="text" name="remove" value="True">
+                                                        <input type="submit" value=" - " class="btn btn-block btn-secondary">
+                                                    </form>
+                                                        <div class="text-center col">{{ product|cart_quantity:request.session.cart }}</div>
+                                                    <form action="#{{product.id}}" class="col-2" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="product" value="{{product.id}}">
+                                                        <input type="submit" value=" + " class="btn btn-block btn-secondary">
+                                                    </form>
+                                            </div>
+                                            {% else %}
+                                                <div class="add-to-cart-btn">
+
+                                                <form action="#{{product.id}}" method="POST">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="product" value="{{product.id}}">
+                                                    <input type="submit" class="btn essence-btn" value="У кошик">
+                                                </form>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                       {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ##### Shop Grid Area End ##### -->
+
+
+</body>
+{% endblock %}

@@ -1,0 +1,42 @@
+
+{% load static %}
+<div class="col-12 col-md-4 col-lg-3">
+    <div class="shop_sidebar_area" style="padding:10px;background: #ffff;width: 270px;box-shadow: 10px 5px 5px #a1a1a1; border: 1px solid #b6b4b4;">
+        <div class="filter">
+            <img src="{% static 'img/bg-img/Vector.png'%}"><h6>Фільтр запчастин</h6>
+        </div>
+        <!-- ##### Single Widget ##### -->
+        <form method="post" name="sidebar_filter" action="{% url 'side_filter' %}">
+            {% csrf_token %}
+            <div class="select-box d-flex mt-50 mb-30">
+                <select class="w-100" name="brand">
+                    {% for brand in brands_filt %}
+                        <option>{{brand.name_of_brand}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="select-box d-flex mt-50 mb-30">
+                <select class="w-100" name="model">
+                    {% for model in models_filt %}
+                        <option>{{model.name_of_model}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="select-box d-flex mb-30">
+                <select class="w-100" name="type">
+                    {% for type in types_filt %}
+                        <option>{{type.name_of_type}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="select-box d-flex mb-30">
+                <select class="w-100" name="category">
+                    {% for category in categories_filt %}
+                        <option>{{category.name_of_category}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <input  class="btn essence-btn" type="submit" value="ПОШУК">
+        </form>
+    </div>
+    </div>

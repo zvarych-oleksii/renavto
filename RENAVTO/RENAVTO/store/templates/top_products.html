@@ -1,0 +1,70 @@
+{% load static %}
+{% load cart %}
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="popular-products-slides owl-carousel">
+                      <!-- Single Product -->
+                        {% for top_product in top_products %}
+                            <div href="{{top_product.id}}" class="single-product-wrapper border-1">
+                            <!-- Product Image -->
+                            <div href="{{top_product.id}}" class="product-img"style="width: 253px; height: 253px;">
+                                <img href="{{top_product.id}}" src="{{top_product.image.url }}" alt="">
+                                <!-- Hover Thumb -->
+
+                                <!-- Product Badge -->
+                                {% if top_product|is_product_new %}
+                                <div class="product-badge new-badge">
+                                    <span>New</span>
+                                </div>
+                                {% endif %}
+
+                                <!-- Favourite -->
+                                <div class="product-favourite">
+                                    <a href="#" class="favme fa fa-heart"></a>
+                                </div>
+                            </div>
+                            <!-- Product Description -->
+                            <div class="product-description">
+                                <span>{{top_product.serial_number}}</span>
+                                <a href="{% url 'Auto_part_det' %}{{top_product.id}}">
+                                    <h6>{{top_product.name}}</h6>
+                                </a>
+                                <p class="product-price">{{top_product.price}} грн.</p>
+
+                                <!-- Hover Content -->
+                                <div class="hover-content">
+                                    <!-- Add to Cart -->
+                                    {% if top_product|is_in_cart:request.session.cart  %}
+                                        <div class="row nu-gutters bg-light">
+                                                    <form action="" method="post">
+                                                        {% csrf_token %}
+                                                        <input hidden type="text" name="product" value="{{top_product.id}}">
+                                                        <input hidden type="text" name="remove" value="True">
+                                                        <input type="submit" value=" - " class="btn btn-block btn-secondary">
+                                                    </form>
+                                                        <div class="text-center col">{{ top_product|cart_quantity:request.session.cart }}</div>
+                                                    <form action="" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="product" value="{{top_product.id}}">
+                                                        <input type="submit" value=" + " class="btn btn-block btn-secondary">
+                                                    </form>
+                                            </div>
+                                    {% else %}
+                                        <div class="add-to-cart-btn">
+
+                                            <form action="" method="POST">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="product" value="{{top_product.id}}">
+                                                <input type="submit" class="btn essence-btn" value="У кошик">
+                                            </form>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>

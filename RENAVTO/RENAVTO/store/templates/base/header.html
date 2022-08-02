@@ -1,0 +1,121 @@
+{% load static %}
+{% load cart %}
+<header class="header_area">
+        <div class="classy-nav-container breakpoint-off d-flex align-items-center justify-content-between" >
+            <!-- Classy Menu -->
+            <nav class="classy-navbar" id="essenceNav">
+                <!-- Logo -->
+                <a class="nav-brand" href="/"><img src="{% static 'img/core-img/logo.png'%}" alt=""></a>
+                <!-- Navbar Toggler -->
+            </nav>
+
+            <!-- Header Meta Data  727272-->
+            <div class="header-meta d-flex clearfix justify-content-end">
+                <!-- Search Area -->
+                <div class="search-area">
+                    <form action="{% url 'search' %}" method="get">
+                        <input id="search_box" type="text" name="search_box" placeholder="Пошук">
+                        <button type="submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    </form>
+                </div>
+                <!-- Favourite Area -->
+                <div class="favourite-area">
+                    <a href="#" id="essenceFavouriteBtn"><img src="{% static 'img/core-img/heart.svg'%}" alt=""></a>
+                </div>
+                <!-- Cart Area -->
+                {% if is_the_cart %}
+                <div class="cart-area">
+                    <a href="#" id="essenceCartBtn"><img src="{% static 'img/core-img/bag.svg'%}" alt=""> <span>{{parts_for_cart|total_cart_quantity:request.session.cart}}</span></a>
+                </div>
+                {% endif %}
+            </div>
+
+        </div>
+    </header>
+{% if is_the_cart %}
+<div class="cart-bg-overlay">
+
+    <div class="right-side-cart-area">
+
+        <!-- Cart Button -->
+        <div class="cart-button">
+            <a href="#" id="rightSideCart"><img src="{% static 'img/core-img/bag.svg' %}" alt=""> <span>{{parts_for_cart|total_cart_quantity:request.session.cart}}</span></a>
+        </div>
+
+        <div class="cart-content d-flex">
+
+            <!-- Cart List Area -->
+            <div class="cart-list">
+                <!-- Single Cart Item -->
+                {% for product in parts_for_cart %}
+                                <div  class="single-product-wrapper border-1" style="margin-bottom: 0">
+                                    <!-- Product Image -->
+                                    <div  class="product-img">
+                                        <img style="width: 190px;height: 190px;" src="{{product.image.url }}" alt="">
+                                        <a href="{% url 'Auto_part_det' %}{{product.id}}"></a>
+                                        <!-- Product Badge -->
+                                        {% if product|is_product_new %}
+                                            <div class="product-badge new-badge">
+                                                <span>New</span>
+                                            </div>
+                                        {% endif %}
+                                        <!-- Favourite -->
+                                    </div>
+
+                                    <!-- Product Description -->
+                                    <div class="product-description">
+                                        <span class="pad">{{product.serial_number}}</span>
+                                         <a href="{% url 'Auto_part_det' %}{{product.id}}">
+                                            <h6 class="h6 pad">{{product.name}}</h6>
+                                        </a>
+                                        <p class="product-price pad">{{ product.price}} грн.</p>
+
+                                        <!-- Hover Content -->
+                                        <div class="hover-content">
+                                            <!-- Add to Cart -->
+                                            {% if product|is_in_cart:request.session.cart  %}
+                                                <div class="row nu-gutters bg-light">
+                                                    <form action="" class="" method="post">
+                                                        {% csrf_token %}
+                                                        <input hidden type="text" name="product" value="{{product.id}}">
+                                                        <input hidden type="text" name="remove" value="True">
+                                                        <input type="submit" value=" - " class="btn btn-block btn-secondary">
+                                                    </form>
+                                                        <div class="text-center col">{{ product|cart_quantity:request.session.cart }}</div>
+                                                    <form action="" class="" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="product" value="{{product.id}}">
+                                                        <input type="submit" value=" + " class="btn btn-block btn-secondary">
+                                                    </form>
+                                            </div>
+                                            {% else %}
+                                                <div class="add-to-cart-btn">
+
+                                                <form action="#{{product.id}}" method="POST">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="product" value="{{product.id}}">
+                                                    <input type="submit" class="btn essence-btn" value="У кошик">
+                                                </form>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="cart-amount-summary border-1">
+                <h2>Загальна сумма</h2>
+                <ul class="summary-table">
+                    <li><span>Клількість товарів:</span>{{parts_for_cart|total_cart_quantity:request.session.cart}}<span></span></li>
+                    <li><span>Сума:</span> <span>{{parts_for_cart|total_cart_price:request.session.cart}} грн.</span></li>
+                </ul>
+                <div class="checkout-btn mt-100">
+                    <a href="{% url 'checkout' %}" class="btn essence-btn">Купити</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
