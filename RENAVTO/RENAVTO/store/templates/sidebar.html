@@ -1,38 +1,70 @@
 
 {% load static %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $(document).ready(function()
+    {
+        var $brand=$('#brand'),
+            $model=$('#model'),
+            $options=$model.find('option');
+            $brand.on('change', function ()
+        {
+            console.log($brand)
+            $('#model').html($options.filter('[data-value="'+ this.value +'"]'));
+            $('#model').niceSelect('update')
+        }).trigger('change');
+    });
+</script>
+<script>
+    $(document).ready(function()
+    {
+        var $type=$('#type'),
+            $category=$('#category'),
+            $options=$category.find('option');
+            $type.on('change', function ()
+        {
+            $('#category').html($options.filter('[data-value="'+ this.value +'"]'));
+            $('#category').niceSelect('update')
+        }).trigger('change');
+    });
+</script>
 <div class="col-12 col-md-4 col-lg-3">
     <div class="shop_sidebar_area" style="padding:10px;background: #ffff;width: 270px;box-shadow: 10px 5px 5px #a1a1a1; border: 1px solid #b6b4b4;">
         <div class="filter">
             <img src="{% static 'img/bg-img/Vector.png'%}"><h6>Фільтр запчастин</h6>
         </div>
         <!-- ##### Single Widget ##### -->
-        <form method="post" name="sidebar_filter" action="{% url 'side_filter' %}">
+        <form method="post" name="sidebar_filter" action="{% url 'side_filter' %}" id="indexForm">
             {% csrf_token %}
             <div class="select-box d-flex mt-50 mb-30">
-                <select class="w-100" name="brand">
+                <select class="w-100" name="brand" id="brand">
+                        <option value="default" selected>Виберіть марку</option>
                     {% for brand in brands_filt %}
-                        <option>{{brand.name_of_brand}}</option>
+                        <option value="{{brand.name_of_brand}}">{{brand.name_of_brand}}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="select-box d-flex mt-50 mb-30">
-                <select class="w-100" name="model">
+                <select class="w-100" name="model" id="model">
+                        <option value="default" selected>Виберіть модель</option>
                     {% for model in models_filt %}
-                        <option>{{model.name_of_model}}</option>
+                        <option value="{{model.name_of_model}}" data-value="{{model.model_of_car}}">{{model.name_of_model}}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="select-box d-flex mb-30">
-                <select class="w-100" name="type">
+                <select class="w-100" name="type" id="type">
+                        <option value="default" selected>Виберіть тип</option>
                     {% for type in types_filt %}
-                        <option>{{type.name_of_type}}</option>
+                        <option value="{{type.name_of_type}}">{{type.name_of_type}}</option>
                     {% endfor %}
                 </select>
             </div>
             <div class="select-box d-flex mb-30">
-                <select class="w-100" name="category">
+                <select class="w-100" name="category" id="category">
+                        <option value="default" selected>Виберіть категорію</option>
                     {% for category in categories_filt %}
-                        <option>{{category.name_of_category}}</option>
+                        <option value="{{category.name_of_category}}" data-value="{{category.part_category}}">{{category.name_of_category}}</option>
                     {% endfor %}
                 </select>
             </div>
