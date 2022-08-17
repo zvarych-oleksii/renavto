@@ -16,3 +16,11 @@ class Order(models.Model):
 
     def placeOrder(self):
         self.save()
+class QuickOrder(models.Model):
+    date_of_order = models.DateField(verbose_name="Коли було зроблене замовлення:",default=datetime.datetime.today)
+    price_total = models.IntegerField(verbose_name="Ціна замовлення:")
+    phone_number = models.CharField(verbose_name="Номер телефону:",blank=False, max_length=15)
+    product = models.TextField(verbose_name="Замовлені запчастини:",blank=False)
+
+    def placeQuickOrder(self):
+        self.save()

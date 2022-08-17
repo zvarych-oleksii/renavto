@@ -7,7 +7,7 @@ from django.template.defaultfilters import upper
 from django.views import View
 from .models.product import Auto_part
 from .models.categories import Model_of_car,Brand_of_car,Type_of_part,Part_category
-from .models.order import Order
+from .models.order import Order, QuickOrder
 from .templatetags.cart import total_cart_price, total_cart_quantity, cart_quantity, price_total
 
 class Index(TemplateView):
@@ -215,3 +215,18 @@ def add_deadd_something_from_favorite(request):
         lst_of_favorites.append(product_for_favorite)
     request.session['favorite'] = lst_of_favorites
     return redirect(request.META.get('HTTP_REFERER'))
+class QuickCheckOut(View):
+    template_name = 'quick_successful.html'
+    def post(self, request):
+        phone_number = request.POST.get('phone_number')
+        id = request.POST.get('auto_part_id')
+        product = Auto_part.lst_of_all_parts.get(pk=id)
+        parts_str = ''
+        parts_str = parts_str + product.name + ' '+ ' ' + product.serial_number + " " + str(product.price) + "грн.;\n"
+        quick_order = QuickOrder(
+                        phone_number=phone_number,
+                          product = parts_str,#product,
+                          price_total=Auto_part.lst_of_all_parts.get(pk=id).price
+                          );
+        quick_order.save()
+        return render(request, "quick_successful.html")

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models.order import Order
+from .models.order import Order, QuickOrder
 from .models.product import Auto_part
 from .models.categories import Brand_of_car, Model_of_car, Type_of_part, Part_category
 
@@ -12,3 +12,4 @@ admin.site.register(Model_of_car)
 admin.site.register(Type_of_part)
 admin.site.register(Part_category)
 admin.site.register(Order)
+admin.site.register(QuickOrder)
