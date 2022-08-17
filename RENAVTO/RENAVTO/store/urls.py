@@ -1,7 +1,8 @@
-
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
-from .views import Index, PartList, AutoPartDetail, models, types, category, qet_queryset,nova_post,CheckOut,SideFilter
+from .views import Index, PartList, AutoPartDetail, models, types, category, qet_queryset,nova_post,CheckOut,SideFilter, add_deadd_something_from_favorite
 
 urlpatterns = [
     path('', Index.as_view(), name="index"),
@@ -15,4 +16,6 @@ urlpatterns = [
     path('part/<int:pk>', AutoPartDetail.as_view(), name='Auto_part_det'),
     path('checkout/', nova_post, name='checkout'),
     path('successful/', CheckOut.as_view(), name='successful'),
-]
+    path('favourite/', add_deadd_something_from_favorite, name='add_deadd_something_from_favorite')
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+

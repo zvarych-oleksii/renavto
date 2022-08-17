@@ -4,7 +4,7 @@
 {% block content %}
 <body>
     <!-- ##### Breadcumb Area Start ##### -->
-    <div class="breadcumb_area bg-img img_types">
+    <div class="breadcumb_area bg-img" style="background-image: url(../static/img/bg-img/bg_for_types.jpg)">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
@@ -21,8 +21,8 @@
     <section class="shop_grid_area section-padding-80">
         <div class="container">
             <div class="row">
-
-                <div class="col-12 col-md-8 col-lg-9">
+            {% include 'sidebar.html' %}
+                <div class="col-12 col-md-8 col-lg-9" style="margin-top: 25px">
                     <div class="shop_grid_product_area">
                         <div class="row">
 
@@ -33,7 +33,7 @@
                                 <div  class="single-product-wrapper border-1">
                                     <!-- Product Image -->
                                     <div href="" class="product-img">
-                                        <img style="width: 255px;height: 255px;" src="{{type.img_of_type.url }}" alt="">
+                                        <img style="padding: 25px;max-height: 253px" src="{{type.img_of_type.url }}" alt="">
                                     </div>
                                     <!-- Product Description -->
                                     <div class="product-description">

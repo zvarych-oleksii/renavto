@@ -6,10 +6,10 @@
                     <div class="popular-products-slides owl-carousel">
                       <!-- Single Product -->
                         {% for top_product in top_products %}
-                            <div href="{{top_product.id}}" class="single-product-wrapper border-1">
+                            <div class="single-product-wrapper border-1">
                             <!-- Product Image -->
-                            <div href="{{top_product.id}}" class="product-img"style="width: 253px; height: 253px;">
-                                <img href="{{top_product.id}}" src="{{top_product.image.url }}" alt="">
+                            <div class="product-img"style="width: 255px; height: 255px;padding: 25px">
+                                <img src="{{top_product.image.url }}" alt="">
                                 <!-- Hover Thumb -->
 
                                 <!-- Product Badge -->
@@ -21,12 +21,24 @@
 
                                 <!-- Favourite -->
                                 <div class="product-favourite">
-                                    <a href="#" class="favme fa fa-heart"></a>
+                                            <form action="{% url 'add_deadd_something_from_favorite' %}" method="POST">
+                                                {% csrf_token %}
+                                                <input hidden type="text" name="product_for_favorite" value="{{top_product.id}}">
+                                                <input hidden type="text" name="next" value="{{ request.path }}">
+                                                <button class="favme fa fa-heart" style="position: absolute;height: 25px;width: 45px;font-size: 14px;color: #ccc;top: 20px;right: 20px;z-index: 10;line-height: 25px;background-color: #ffffff;box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);text-align: center;" type="submit">
+                                                </button>
+                                            </form>
                                 </div>
                             </div>
                             <!-- Product Description -->
                             <div class="product-description">
                                 <span>{{top_product.serial_number}}</span>
+                                <span class="pad">{{top_product.produced_by}}</span>
+                                        {% if top_product.state %}
+                                            <span class="pad">Б/У</span>
+                                        {% else %}
+                                            <span class="pad">Новий</span>
+                                        {% endif %}
                                 <a href="{% url 'Auto_part_det' %}{{top_product.id}}">
                                     <h6>{{top_product.name}}</h6>
                                 </a>

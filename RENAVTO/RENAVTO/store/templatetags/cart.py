@@ -4,10 +4,11 @@ register = template.Library()
 
 @register.filter(name='is_in_cart')
 def is_in_cart(product, cart):
-    keys = cart.keys()
-    for id in keys:
-        if int(id) == product.id:
-            return True
+    if cart:
+        keys = cart.keys()
+        for id in keys:
+            if int(id) == product.id:
+                return True
     return False
 @register.filter(name='cart_quantity')
 def cart_quantity(product  , cart):
@@ -40,6 +41,13 @@ def is_product_new(date):
     date2 = datetime.datetime.today()
     print((date1 - date2.date()).days)
     if abs((date1-date2.date()).days)<=7:
+        return True
+    else:
+        return False
+@register.filter(name='is_favorite')
+def is_favorite(favorite):
+    if favorite!=[] and favorite:
+
         return True
     else:
         return False

@@ -51,7 +51,7 @@
                                 <div  class="single-product-wrapper border-1" style="margin-bottom: 0">
                                     <!-- Product Image -->
                                     <div  class="product-img">
-                                        <img style="width: 190px;height: 190px;" src="{{product.image.url }}" alt="">
+                                        <img style="width: 100%;max-height: 150px;padding: 25px" src="{{product.image.url }}" alt="">
                                         <a href="{% url 'Auto_part_det' %}{{product.id}}"></a>
                                         <!-- Product Badge -->
                                         {% if product|is_product_new %}
@@ -119,3 +119,73 @@
     </div>
 </div>
 {% endif %}
+<!-- Favourite -->
+<div class="favourite-bg-overlay">
+    <div class="right-side-favourite-area row">
+        <div class="cart-button">
+            <a href="#" id="rightFavouriteCart"><img src="{% static 'img/core-img/heart-fill.svg' %}" alt=""></a>
+        </div>
+        {% if request.session.favorite|is_favorite %}
+                    {% for product in favourite_parts %}
+        <div class="col-12 col-sm-6 col-lg-4 " style="padding: 15px">
+                    <div  class="single-product-wrapper border-1" style="margin-bottom: 0">
+                                    <!-- Product Image -->
+                                    <div  class="product-img">
+                                        <img style="padding: 25px" src="{{product.image.url }}" alt="">
+                                        <a href="{% url 'Auto_part_det' %}{{product.id}}"></a>
+                                        <!-- Product Badge -->
+                                        {% if product|is_product_new %}
+                                            <div class="product-badge new-badge">
+                                                <span>New</span>
+                                            </div>
+                                        {% endif %}
+                                        <!-- Favourite -->
+                                    </div>
+
+                                    <!-- Product Description -->
+                                    <div class="product-description">
+                                        <span class="pad">{{product.serial_number}}</span>
+                                         <a href="{% url 'Auto_part_det' %}{{product.id}}">
+                                            <h6 class="h6 pad">{{product.name}}</h6>
+                                        </a>
+                                        <p class="product-price pad">{{ product.price}} грн.</p>
+
+                                        <!-- Hover Content -->
+                                        <div class="hover-content">
+                                            <!-- Add to Cart -->
+                                            {% if product|is_in_cart:request.session.cart  %}
+                                                <div class="row nu-gutters bg-light">
+                                                    <form action="" class="" method="post">
+                                                        {% csrf_token %}
+                                                        <input hidden type="text" name="product" value="{{product.id}}">
+                                                        <input hidden type="text" name="remove" value="True">
+                                                        <input type="submit" value=" - " class="btn btn-block btn-secondary">
+                                                    </form>
+                                                        <div class="text-center col">{{ product|cart_quantity:request.session.cart }}</div>
+                                                    <form action="" class="" method="post">
+                                                        {% csrf_token %}
+                                                        <input type="hidden" name="product" value="{{product.id}}">
+                                                        <input type="submit" value=" + " class="btn btn-block btn-secondary">
+                                                    </form>
+                                            </div>
+                                            {% else %}
+                                                <div class="add-to-cart-btn">
+
+                                                <form action="#{{product.id}}" method="POST">
+                                                    {% csrf_token %}
+                                                    <input type="hidden" name="product" value="{{product.id}}">
+                                                    <input type="submit" class="btn essence-btn" value="У кошик">
+                                                </form>
+                                            </div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+        </div>
+                    {% endfor %}
+        {% else %}
+            <h3 style="margin: auto;font-size:20px;">У вас немає нічого в улюблених</h3>
+        {% endif %}
+    </div>
+    </div>
+</div>

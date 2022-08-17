@@ -4,7 +4,7 @@
 {% block content %}
 <body>
     <!-- ##### Breadcumb Area Start ##### -->
-    <div class="breadcumb_area bg-img img-category" style="background-image: url(../static/img/bg-img/bg-1.png);">
+    <div class="breadcumb_area bg-img" style="background-image: url(../static/img/bg-img/bg_for_parts.png);">
         <div class="container h-100">
             <div class="row h-100 align-items-center">
                 <div class="col-12">
@@ -29,45 +29,49 @@
                             <div class="col-12">
                                 <div class="product-topbar d-flex align-items-center justify-content-around">
                                     <!-- Total Products -->
-                                    <div class="total-products">
+                                    <div class="total-products" style="margin-top: 50px">
                                         <p> Знайдено товарів:<span style="font-size: 14px;font-weight: bold">{{search_results.count}}</span></p>
                                     </div>
-                                    <!-- Sorting -->
-                                    <!--<div class="product-sorting d-flex">
-                                        <p>Сортувати по :</p>
-                                        <form action="" name="sorted_by" method="get">
-                                            <select name="select" id="sortByselect">
-                                                <option value="ff">Від найдорожчих</option>
-                                                <option value="gg">Від найдешевших</option>
-                                            </select>
-                                        </form>
-                                    </div>-->
                                 </div>
                             </div>
                         </div>
 
                         <div class="row">
-
+                            {% if search_results.count != 0 %}
                             <!-- Single Product -->
-                            {% for product in search_results %}
-                                <div class="col-12 col-sm-6 col-lg-4 " id="{{product.id}}" >
+                                {% for product in search_results %}
+                                     <div class="col-12 col-sm-6 col-lg-4 " id="{{product.id}}" >
                                 <div class="single-product-wrapper border-1">
                                     <!-- Product Image -->
                                     <div class="product-img">
-                                        <img style="width: 255px;height: 255px;" src="{{product.image.url }}" alt="">
+                                        <img style="width: 255px;height: 255px;padding: 25px;" src="{{product.image.url }}" alt="">
                                         <!-- Product Badge -->
-                                        <div class="product-badge offer-badge">
-                                            <span>-30%</span>
-                                        </div>
+                                        {% if product|is_product_new %}
+                                         <div class="product-badge new-badge">
+                                              <span>New</span>
+                                         </div>
+                                        {% endif %}
                                         <!-- Favourite -->
                                         <div class="product-favourite">
-                                            <a href="#" class="favme fa fa-heart"></a>
+                                            <form action="{% url 'add_deadd_something_from_favorite' %}" method="POST">
+                                                {% csrf_token %}
+                                                <input hidden type="text" name="product_for_favorite" value="{{product.id}}">
+                                                <input hidden type="text" name="next" value="{{ request.path }}">
+                                                <button class="favme fa fa-heart" style="position: absolute;height: 25px;width: 45px;font-size: 14px;color: #ccc;top: 20px;right: 20px;z-index: 10;line-height: 25px;background-color: #ffffff;box-shadow: 0 0 3px rgba(0, 0, 0, 0.15);text-align: center;" type="submit">
+                                                </button>
+                                            </form>
                                         </div>
                                     </div>
 
                                     <!-- Product Description -->
                                     <div class="product-description">
                                         <span class="pad">{{product.serial_number}}</span>
+                                        <span class="pad">{{product.produced_by}}</span>
+                                        {% if product.state %}
+                                            <span class="pad">Б/У</span>
+                                        {% else %}
+                                            <span class="pad">Новий</span>
+                                        {% endif %}
                                         <a href="{% url 'Auto_part_det' %}{{product.id}}">
                                             <h6 class="h6 pad">{{product.name}}</h6>
                                         </a>
@@ -78,14 +82,14 @@
                                             <!-- Add to Cart -->
                                             {% if product|is_in_cart:request.session.cart  %}
                                                 <div class="row nu-gutters bg-light">
-                                                    <form action="#{{product.id}}" class="col-2" method="post">
+                                                    <form action="#{{product.id}}" method="post">
                                                         {% csrf_token %}
                                                         <input hidden type="text" name="product" value="{{product.id}}">
                                                         <input hidden type="text" name="remove" value="True">
                                                         <input type="submit" value=" - " class="btn btn-block btn-secondary">
                                                     </form>
                                                         <div class="text-center col">{{ product|cart_quantity:request.session.cart }}</div>
-                                                    <form action="#{{product.id}}" class="col-2" method="post">
+                                                    <form action="#{{product.id}}" method="post">
                                                         {% csrf_token %}
                                                         <input type="hidden" name="product" value="{{product.id}}">
                                                         <input type="submit" value=" + " class="btn btn-block btn-secondary">
@@ -105,8 +109,10 @@
                                     </div>
                                 </div>
                             </div>
-
-                       {% endfor %}
+                                {% endfor %}
+                            {% else %}
+                                <h4 style="margin: auto">Товарів не знайдено</h4>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

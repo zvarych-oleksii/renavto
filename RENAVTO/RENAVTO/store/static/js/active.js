@@ -56,10 +56,10 @@
     var cartOn = "cart-on";
     var favouritebtn1 = $('#essenceFavouriteBtn');
     var favouritebtn2 = $("#rightSideFavourite")
-    var cartOverlay = $(".cart-bg-overlay");
-    var cartWrapper = $(".right-side-cart-area");
-    var cartOverlayOn = "cart-bg-overlay-on";
-    var cartOn = "cart-on";
+    var favouriteOverlay = $(".favourite-bg-overlay");
+    var favouriteWrapper = $(".right-side-favourite-area");
+    var favouriteOverlayOn = "favourite-bg-overlay-on";
+    var favouriteOn = "favourite-on";
 
     cartbtn1.on('click', function () {
         cartOverlay.toggleClass(cartOverlayOn);
@@ -74,16 +74,16 @@
         cartWrapper.removeClass(cartOn);
     });
     favouritebtn1.on('click', function () {
-        cartOverlay.toggleClass(cartOverlayOn);
-        cartWrapper.toggleClass(cartOn);
+        favouriteOverlay.toggleClass(favouriteOverlayOn);
+        favouriteWrapper.toggleClass(favouriteOn);
     });
-    cartOverlay.on('click', function () {
-        $(this).removeClass(cartOverlayOn);
-        cartWrapper.removeClass(cartOn);
+    favouriteOverlay.on('click', function () {
+        $(this).removeClass(favouriteOverlayOn);
+        favouriteWrapper.removeClass(favouriteOn);
     });
     favouritebtn2.on('click', function () {
-        cartOverlay.removeClass(cartOverlayOn);
-        cartWrapper.removeClass(cartOn);
+        favouriteOverlay.removeClass(favouriteOverlayOn);
+        favouriteWrapper.removeClass(favouriteOn);
     });
     // :: ScrollUp Active Code
     if ($.fn.scrollUp) {

@@ -70,6 +70,8 @@ class CheckOut(View):
                           quantity_total=total_cart_quantity(products, cart),#cart.get(str(product.id))
                           );
         order.save()
+        request.session['cart'] = {}
+        print(request.session.get('cart'))
         return render(request, "successful.html")
 
 class ItemsForFilter():
@@ -149,7 +151,6 @@ class AutoPartDetail(DetailView):
         return redirect('Auto_part_det', pk=pk)
 
 def models(request, brand):
-    print(brand)
     car_brand = Brand_of_car.lst_of_all_brands.get(name_of_brand = brand)
     car_models = Model_of_car.lst_of_all_models.filter(model_of_car=car_brand)
     return render(request, 'car_models.html', {'car_models': car_models})
@@ -198,26 +199,19 @@ def cart_header(request):
     return render(request, 'base/header.html', {'parts_example':parts_example})
 
 def nova_post(request):
-    """novaposhta_url = "https://api.novaposhta.ua/v2.0/json/"
-    novaposhta_data ='''
-        {
-            "apiKey": "87057d4bd1b5f4fafb8ad72835aeb100",
-            "modelName": "Address",
-            "calledMethod": "getAreas",
-            "methodProperties": {   }
-        }
-
-        '''
-    res = post(novaposhta_url, data=novaposhta_data, headers={'Content-Type': 'application/json; charset="UTF-8"'})
-    res = json.loads(res.content)['data']
-    lst = {}
-    for i in res:
-        lst[str(i['Ref'])] = i['Description']
-    lst.pop('71508128-9b87-11de-822f-000c2965ae0e')"""
-
     return render(request, "checkout.html")
-def get(request):
-    lst = request.GET.get("sidebar_filter")
-    print(lst)
-    return HttpResponseRedirect('')
 
+def add_deadd_something_from_favorite(request):
+    product_for_favorite = request.POST.get('product_for_favorite')
+    next = request.POST.get('next')
+    lst_of_favorites = request.session.get('favorite')
+    if lst_of_favorites:
+        if product_for_favorite in lst_of_favorites:
+            lst_of_favorites.remove(product_for_favorite)
+        else:
+            lst_of_favorites.append(product_for_favorite)
+    else:
+        lst_of_favorites = []
+        lst_of_favorites.append(product_for_favorite)
+    request.session['favorite'] = lst_of_favorites
+    return redirect(request.META.get('HTTP_REFERER'))

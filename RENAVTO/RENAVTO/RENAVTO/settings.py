@@ -66,6 +66,7 @@ TEMPLATES = [
                 'store.cart_header.parts_for_cart',
                 'store.cart_header.left_filter',
                 'store.cart_header.top_product',
+                'store.cart_header.favourite_parts',
             ],
         },
     },

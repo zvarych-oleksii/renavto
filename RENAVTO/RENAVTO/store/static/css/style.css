@@ -6,17 +6,20 @@
       border: 1px solid #b6b4b4;
       box-shadow: 5px 5px 5px #a1a1a1;
   }
-    .filter_side{
+.filter_side{
         background: #ffff;
         width: 270px;
         box-shadow: 10px 5px 5px #a1a1a1;
         border: 1px solid #b6b4b4;
     }
-    .filter{
+.filter{
         display: flex;
         align-items: center;
+        justify-content: space-around;
+        margin-left: 20px;
+        margin-right: 30px;
     }
-    .img_product_detail{
+.img_product_detail{
         max-width: 100px;
         max-height: 100px;
         border: 1px solid #b6b4b4;
