@@ -1,4 +1,4 @@
-from .models import Auto_part, Brand_of_car, Model_of_car, Type_of_part, Part_category
+from ..models import Auto_part, Brand_of_car, Model_of_car, Type_of_part, Part_category
 
 
 def parts_for_cart(request):

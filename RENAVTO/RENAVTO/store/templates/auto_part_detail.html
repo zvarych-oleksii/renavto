@@ -46,7 +46,10 @@
                 <h6>Стан: </h6><p class="product-desc">B/Y</p>
             {% else %}
                 <h6>Стан: </h6><p class="product-desc">Новий</p>
+            {% endif %}
             <h6>Код товару: </h6><p class="product-desc">{{auto_part.id}}</p>
+            {% if auto_part.description %}
+                <h6>Опис: </h6><p class="product-desc">{{auto_part.description}}</p>
             {% endif %}
             <!-- Form -->
                 <!-- Cart & Favourite Box -->
@@ -91,12 +94,16 @@
             <form action="{% url 'quick_successful' %}" method="POST">
                             {% csrf_token %}
                             <div class="row">
+                                {% csrf_token %}
                                 <div class="col-12 mb-3">
                                     <label for="phone_number">Номер телефону</label>
-                                    <input id="phone_number" type="text" class="form-control" name="phone_number" min="0" max="15" value="" placeholder=" ">
+                                    <input type="text" class="form-control" name="phone_number" min="0" max="15" value="">
+                                    {% csrf_token %}
                                     <input hidden type="text" value="{{auto_part.id}}" name="auto_part_id">
+                                    {% csrf_token %}
                                 </div>
                             </div>
+                            {% csrf_token %}
                             <input type="submit" class="btn essence-btn" value="Купити">
                             {% csrf_token %}
             </form>
