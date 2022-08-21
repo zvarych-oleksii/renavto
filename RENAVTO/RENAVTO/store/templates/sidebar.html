@@ -37,7 +37,7 @@
         <form method="post" name="sidebar_filter" action="{% url 'side_filter' %}" id="indexForm">
             {% csrf_token %}
             <div class="select-box d-flex mt-50 mb-30">
-                <select class="w-100" name="brand" id="brand">
+                <select class="w-100" name="brand" id="brand" required>
                         <option value="default" selected>Виберіть марку</option>
                     {% for brand in brands_filt %}
                         <option value="{{brand.name_of_brand}}">{{brand.name_of_brand}}</option>
@@ -45,7 +45,7 @@
                 </select>
             </div>
             <div class="select-box d-flex mb-30">
-                <select class="w-100" name="model" id="model">
+                <select class="w-100" name="model" id="model" required>
                         <option value="default" selected>Виберіть модель</option>
                     {% for model in models_filt %}
                         <option value="{{model.name_of_model}}" data-value="{{model.model_of_car}}">{{model.name_of_model}}</option>
@@ -53,7 +53,7 @@
                 </select>
             </div>
             <div class="select-box d-flex mb-30">
-                <select class="w-100" name="type" id="type">
+                <select class="w-100" name="type" id="type" required>
                         <option value="default" selected>Виберіть тип</option>
                     {% for type in types_filt %}
                         <option value="{{type.name_of_type}}">{{type.name_of_type}}</option>
@@ -61,7 +61,7 @@
                 </select>
             </div>
             <div class="select-box d-flex mb-30">
-                <select class="w-100" name="category" id="category">
+                <select class="w-100" name="category" id="category" required>
                         <option value="default" selected>Виберіть категорію</option>
                     {% for category in categories_filt %}
                         <option value="{{category.name_of_category}}" data-value="{{category.part_category}}">{{category.name_of_category}}</option>
